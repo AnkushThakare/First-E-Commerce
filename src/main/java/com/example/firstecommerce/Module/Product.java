@@ -1,15 +1,23 @@
 package com.example.firstecommerce.Module;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.ManyToOne;
 
-public class Products {
-    private int id;
+
+@Entity
+
+public class Product extends BaseModel {
+
+
+    private long id;
     private String title;
     private double price;
+    @ManyToOne
     private Category category;
     private String ImageUrl;
 
 
-    public Products(int id, String title, double price, Category category, String ImageUrl) {
+    public Product(long id, String title, double price, Category category, String ImageUrl) {
         this.id = id;
         this.title = title;
         this.price = price;
@@ -17,10 +25,10 @@ public class Products {
         this.ImageUrl = ImageUrl;
     }
 
-    public Products() {
+    public Product() {
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -40,7 +48,7 @@ public class Products {
         this.ImageUrl = ImageUrl;
     }
 
-    public int getId() {
+    public long getId() {
         return this.id;
     }
 

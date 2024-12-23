@@ -1,32 +1,44 @@
 package com.example.firstecommerce.Module;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Entity;
+import jakarta.persistence.OneToMany;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+import java.util.Date;
+import java.util.List;
 
 
-public class Category {
-    private long id;
+@Entity
+public class Category extends BaseModel{
     private String title;
 
+    //duplicate relation(already mentioned in product class)
+    @OneToMany(mappedBy = "category", cascade = {CascadeType.REMOVE})
+    private List<Product> products; //electronics
 
-    public Category(long id, String title) {
-        this.id = id;
-        this.title = title;
-    }
-
-    public Category() {
-    }
-
-    public long getId() {
-        return this.id;
-    }
+    //deletes a category
+    //deleting cat_id = 4
+    //Product
+    //cat_id column
+    //Category : Product : 1 : m
+    //Read about cascade types and fk constraints.
 
     public String getTitle() {
-        return this.title;
-    }
-
-    public void setId(long id) {
-        this.id = id;
+        return title;
     }
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public List<Product> getProducts() {
+        return products;
+    }
+
+    public void setProducts(List<Product> products) {
+        this.products = products;
     }
 }

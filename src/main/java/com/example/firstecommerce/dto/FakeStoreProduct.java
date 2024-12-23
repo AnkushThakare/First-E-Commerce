@@ -1,6 +1,6 @@
 package com.example.firstecommerce.dto;
 
-import com.example.firstecommerce.Module.Products;
+import com.example.firstecommerce.Module.Product;
 import com.example.firstecommerce.Module.Category;
 
 
@@ -11,8 +11,8 @@ public class FakeStoreProduct {
     private String image;
     private String category;
 
-    public Products toProduct() {
-        Products products = new Products();
+    public Product toProduct() {
+        Product products = new Product();
         products.setTitle(title);
 
         products.setPrice(Price);

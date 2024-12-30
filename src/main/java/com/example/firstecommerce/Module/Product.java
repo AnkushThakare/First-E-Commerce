@@ -67,4 +67,8 @@ public class Product extends BaseModel {
     public String getImageUrl() {
         return this.ImageUrl;
     }
+
+    public void setDescription(String description) {
+
+    }
 }

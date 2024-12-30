@@ -3,6 +3,9 @@ package com.example.firstecommerce.Controller;
 import com.example.firstecommerce.Module.Product;
 import com.example.firstecommerce.Service.ProductService;
 import com.example.firstecommerce.dto.CreateProductDto;
+import org.springframework.beans.factory.annotation.Qualifier;
+
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,8 +21,9 @@ import java.util.List;
 public class productController {
 
 
+
     private ProductService productService;
-    public productController(ProductService productService) {
+    public productController(@Qualifier("SelfProductService") ProductService productService) {
         this.productService = productService;
 
     }
@@ -35,8 +39,9 @@ public class productController {
         // Return a single product based on ID (mock data for now)
         return productService.getSingleProduct(id);
     }
-    @PostMapping("/prducts")
-    public void CreateProduct(CreateProductDto createProductDto) {
+    @PostMapping("/products")
+    @ResponseStatus(HttpStatus.CREATED)
+    public void CreateProduct(@RequestBody CreateProductDto createProductDto) {
         productService.CreateProduct(createProductDto);
 
 

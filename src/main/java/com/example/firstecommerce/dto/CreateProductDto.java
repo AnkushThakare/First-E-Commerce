@@ -1,30 +1,35 @@
 package com.example.firstecommerce.dto;
 
+import com.example.firstecommerce.Module.Category;
+import lombok.Getter;
+import org.aspectj.bridge.IMessage;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
+
+
 public class CreateProductDto {
      private String title;
+
      private String description;
      private double price;
+
      private String image;
      private String category;
 
-
+       @NotBlank(message="title cannot blank")
      public String getTitle() {
           return this.title;
      }
 
-     public String getDescription() {
-          return this.description;
-     }
-
+    @Positive
      public double getPrice() {
           return this.price;
      }
-
-     public String getImage() {
-          return this.image;
-     }
-
-     public String getCategory() {
+         public String getDescription() {
+           return this.description;
+         }
+    public String getCategory() {
           return this.category;
      }
 
@@ -47,4 +52,5 @@ public class CreateProductDto {
      public void setCategory(String category) {
           this.category = category;
      }
+
 }

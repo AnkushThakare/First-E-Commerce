@@ -1,7 +1,8 @@
 package com.example.firstecommerce.Service;
 
+import com.example.firstecommerce.Module.Category;
 import com.example.firstecommerce.Module.Product;
-import com.example.firstecommerce.dto.CreateProductDto;
+import com.example.firstecommerce.exception.ProductNotFoundException;
 
 import java.util.List;
 
@@ -9,8 +10,11 @@ public interface ProductService {
 
     List<Product> getAllProducts();
 
-    Product getSingleProduct(long id);
+    Product getSingleProduct(long id) throws ProductNotFoundException;
 
-    void CreateProduct(CreateProductDto createProductDto);
 
-}
+   Product createProduct(String Title, String description, String image, Category category, double price);
+
+
+    }
+

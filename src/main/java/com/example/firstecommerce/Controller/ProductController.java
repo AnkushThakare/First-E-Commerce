@@ -1,11 +1,15 @@
 package com.example.firstecommerce.Controller;
 
 import com.example.firstecommerce.Module.Product;
+import com.example.firstecommerce.Repositery.ProductRepository;
 import com.example.firstecommerce.Service.ProductService;
 import com.example.firstecommerce.dto.CreateProductDto;
+import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,12 +22,13 @@ import java.util.List;
 
 
 
-public class productController {
+public class ProductController {
+
 
 
 
     private ProductService productService;
-    public productController(@Qualifier("SelfProductService") ProductService productService) {
+    public ProductController(@Qualifier("SelfProductService") ProductService productService) {
         this.productService = productService;
 
     }
@@ -39,12 +44,21 @@ public class productController {
         // Return a single product based on ID (mock data for now)
         return productService.getSingleProduct(id);
     }
-    @PostMapping("/products")
+    @PostMapping("/")
     @ResponseStatus(HttpStatus.CREATED)
-    public void CreateProduct(@RequestBody CreateProductDto createProductDto) {
-        productService.CreateProduct(createProductDto);
-
-
-
+    public Product createProduct(@Valid @RequestBody CreateProductDto createProductDto) {
+        return productService.createProduct(
+                createProductDto.getTitle(),
+                createProductDto.getDescription(),
+                createProductDto.getImage(),  // Ensure image is present in CreateProductDto
+                createProductDto.getCategory(),
+                createProductDto.getPrice()  // Ensure price is present in CreateProductDto
+        );
     }
 }
+
+
+
+
+
+

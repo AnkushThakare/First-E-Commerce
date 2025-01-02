@@ -1,42 +1,62 @@
 package com.example.firstecommerce.Service;
 
+import com.example.firstecommerce.Module.Category;
 import com.example.firstecommerce.Module.Product;
+import com.example.firstecommerce.Repositery.CategoryRepository;
 import com.example.firstecommerce.Repositery.ProductRepository;
-import com.example.firstecommerce.dto.CreateProductDto;
+import com.example.firstecommerce.exception.ProductNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service("SelfProductService")
 public class SelfProductService implements ProductService {
 
     private final ProductRepository productRepository;
+    private final CategoryRepository categoryRepository;
 
-    // Constructor to inject the productRepository dependency
-    public SelfProductService(ProductRepository productRepository) {
+    public SelfProductService(ProductRepository productRepository, CategoryRepository categoryRepository) {
         this.productRepository = productRepository;
-    }
-
-    @Override
-    public Product getSingleProduct(long id) {
-        return productRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Product not found"));
+        this.categoryRepository = categoryRepository;
     }
 
     @Override
     public List<Product> getAllProducts() {
-        // Retrieve and return all products from the repository
+        // Return all products.
         return productRepository.findAll();
     }
+
     @Override
-    public void CreateProduct(CreateProductDto createProductDto) {
-        // Logic for creating a product
+    public Product getSingleProduct(long id) throws ProductNotFoundException {
+        // Find the product by ID.
+        Optional<Product> product = productRepository.findById(id);
+        // Throw exception if not found.
+        return product.orElseThrow(() -> new ProductNotFoundException("Product with ID " + id + " not found."));
+    }
+
+    @Override
+    public Product createProduct(String title, String description, String image, Category category, double price) {
+        // Create a new product instance.
         Product newProduct = new Product();
 
-        newProduct.setPrice(createProductDto.getPrice());
-        newProduct.setDescription(createProductDto.getDescription());
-        // Save the product
-        productRepository.save(newProduct);
-    // Implement other methods if necessary (e.g., CreateProduct)
+        newProduct.setTitle(title);
+        newProduct.setDescription(description);
+        newProduct.setImageUrl(image);
+        newProduct.setPrice(price);
 
-}   }
+        // Look for the category in the database by its title.
+        Category categoryFromDb = categoryRepository.findByTitle(category.getTitle());
+
+        if (categoryFromDb != null) {
+            // Set the existing category from the database.
+            newProduct.setCategory(categoryFromDb);
+        } else {
+            // If the category doesn't exist, set the provided category directly.
+            newProduct.setCategory(category);
+        }
+
+        // Save the product to the repository.
+        return productRepository.save(newProduct);
+    }
+}

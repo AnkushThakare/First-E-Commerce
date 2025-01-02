@@ -69,6 +69,7 @@ public class Product extends BaseModel {
     }
 
     public void setDescription(String description) {
+        return;
 
     }
 }

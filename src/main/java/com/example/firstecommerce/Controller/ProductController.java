@@ -4,6 +4,7 @@ import com.example.firstecommerce.Module.Product;
 import com.example.firstecommerce.Repositery.ProductRepository;
 import com.example.firstecommerce.Service.ProductService;
 import com.example.firstecommerce.dto.CreateProductDto;
+import com.example.firstecommerce.exception.ProductNotFoundException;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -40,7 +41,7 @@ public class ProductController {
     }
 
     @GetMapping("/{id}")
-    public Product getSingleProduct(@PathVariable ("id")Long id) {
+    public Product getSingleProduct(@PathVariable ("id")Long id) throws ProductNotFoundException {
         // Return a single product based on ID (mock data for now)
         return productService.getSingleProduct(id);
     }
